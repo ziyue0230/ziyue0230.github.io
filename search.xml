@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>docker快查</title>
+      <link href="/2021-08/docker%E5%BF%AB%E6%9F%A5/"/>
+      <url>/2021-08/docker%E5%BF%AB%E6%9F%A5/</url>
+      
+        <content type="html"><![CDATA[<h1 id="docker快查"><a href="#docker快查" class="headerlink" title="docker快查"></a>docker快查</h1><h2 id="搜索镜象"><a href="#搜索镜象" class="headerlink" title="搜索镜象"></a>搜索镜象</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search centos7</span><br></pre></td></tr></table></figure><h2 id="拉取镜象"><a href="#拉取镜象" class="headerlink" title="拉取镜象"></a>拉取镜象</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull centos7</span><br></pre></td></tr></table></figure><h2 id="本地镜象"><a href="#本地镜象" class="headerlink" title="本地镜象"></a>本地镜象</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure><p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/Snipaste_2020-03-24_17-24-56.jpg" alt="image"><br>tag 标签用来区分不同的容器，不填写的话默认是latest。</p><h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --name 容器名称 -p 主机端口:容器端口 镜像名称:tag标签 /bin/bash</span><br></pre></td></tr></table></figure><table><thead><tr><th align="center">options</th><th align="center">mean</th></tr></thead><tbody><tr><td align="center">-i</td><td align="center">以交互模式运行容器，通常与 -t 同时使用</td></tr><tr><td align="center">-t</td><td align="center">为容器重新分配一个伪输入终端，通常与 -i 同时使用；</td></tr><tr><td align="center">-d</td><td align="center">后台运行容器，并返回容器ID；</td></tr><tr><td align="center">-p</td><td align="center">主机和容器端口映射</td></tr></tbody></table><h2 id="列举容器"><a href="#列举容器" class="headerlink" title="列举容器"></a>列举容器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps [-a]</span><br></pre></td></tr></table></figure><p>不加<code>-a</code>，只列举运行的容器</p><h2 id="运行-停止容器"><a href="#运行-停止容器" class="headerlink" title="运行/停止容器"></a>运行/停止容器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop/start 容器名/ID</span><br></pre></td></tr></table></figure><p>填写容器名则要全写上去，如果用的是ID,这里的ID并不需要写完整的ID或者16位短ID,只需要能与其他容器区分开即可，就算你只写第一个字符都是可以的，只要能区分开。</p><h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it  容器ID /bin/bash</span><br></pre></td></tr></table></figure><h2 id="拷贝文件到容器"><a href="#拷贝文件到容器" class="headerlink" title="拷贝文件到容器"></a>拷贝文件到容器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp 主机的文件目录 容器名:容器中的目录</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂项 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Python中的迭代器和生成器</title>
       <link href="/2021-08/Python%E4%B8%AD%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/"/>
       <url>/2021-08/Python%E4%B8%AD%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/</url>
