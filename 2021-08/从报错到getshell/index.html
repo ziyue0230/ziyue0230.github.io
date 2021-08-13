@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>从报错到getshell | 小悦</title><meta name="author" content="帅气的吴先生"><meta name="copyright" content="帅气的吴先生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从报错到getshell0x00 前言在进行一次渗透测试任务的时候，遇到一个比较奇葩的半成品网站，web服务几乎所有功能都是internal server error，端口扫描完成后访问服务发现应该是做过反向代理。在茫然不知所措的时候，从一个404页面找到了突破口，到最后成功getshell。这里记录一下整个getshell的过程。 0x01 信息收集收集一点网站的基本信息，可以了解网站结构，理清">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从报错到getshell">
+<meta property="og:url" content="https://ziyue0230.top/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/index.html">
+<meta property="og:site_name" content="小悦">
+<meta property="og:description" content="从报错到getshell0x00 前言在进行一次渗透测试任务的时候，遇到一个比较奇葩的半成品网站，web服务几乎所有功能都是internal server error，端口扫描完成后访问服务发现应该是做过反向代理。在茫然不知所措的时候，从一个404页面找到了突破口，到最后成功getshell。这里记录一下整个getshell的过程。 0x01 信息收集收集一点网站的基本信息，可以了解网站结构，理清">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ziyue0230.top/img/cover/getshell.jpg">
+<meta property="article:published_time" content="2021-08-13T06:25:07.000Z">
+<meta property="article:modified_time" content="2021-08-13T06:30:43.293Z">
+<meta property="article:author" content="帅气的吴先生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ziyue0230.top/img/cover/getshell.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://ziyue0230.top/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 帅气的吴先生","link":"链接: ","source":"来源: 小悦","info":"著作权归作者所有。未经作者授权禁止转载！"}},
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从报错到getshell',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-13 14:30:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/getshell.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">小悦</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">从报错到getshell</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-13T06:25:07.000Z" title="发表于 2021-08-13 14:25:07">2021-08-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-13T06:30:43.293Z" title="更新于 2021-08-13 14:30:43">2021-08-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从报错到getshell"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="从报错到getshell"><a href="#从报错到getshell" class="headerlink" title="从报错到getshell"></a>从报错到getshell</h1><h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>在进行一次渗透测试任务的时候，遇到一个比较奇葩的半成品网站，web服务几乎所有功能都是internal server error，端口扫描完成后访问服务发现应该是做过反向代理。在茫然不知所措的时候，从一个404页面找到了突破口，到最后成功getshell。这里记录一下整个getshell的过程。</p>
+<h2 id="0x01-信息收集"><a href="#0x01-信息收集" class="headerlink" title="0x01 信息收集"></a>0x01 信息收集</h2><p>收集一点网站的基本信息，可以了解网站结构，理清渗透思路。这里可以看到该网站使用的web框架、编程语言用的java，插件使用了jQuery，jQuery有xss的漏洞，但利用价值不大</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-55-10.jpg" alt="image"></p>
+<h2 id="0x02-报错页面"><a href="#0x02-报错页面" class="headerlink" title="0x02 报错页面"></a>0x02 报错页面</h2><p>整个网站也是比较奇葩了，提供的功能倒是多，却没一个能打开的</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-27-13.jpg" alt="image"></p>
+<p>点击就是internal server error</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-29-54.jpg" alt="image"></p>
+<p>猜测管理后台的路径时，返回错误只有not found</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-33-36.jpg" alt="image"></p>
+<p>之后随手在url访问路径中添加了一个<code>/</code>，返回了一个经过定制的报错页面</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-36-08.jpg" alt="image"></p>
+<p>这里可以看到三个超链接，这里有两种思路：</p>
+<ol>
+<li>“后退”：网站可能通过Referer记录下跳转过来的链接，并将其作为“后退”按钮的超链接，这样的话就可能存在XSS漏洞，注入点在Referer头。于是检查一下html代码，发现后退功能是调用js的history.back()函数，这样的话就没什么利用的可能了。</li>
+<li>“联系网站管理员”：可以尝试一下社工，但人家作为网站的管理员，套出东西的可能性不大。之前进行指纹识别的时候，是没有探测出网站使用的CMS的，这里顺手看了一下“联系网站管理员”的链接，神奇的事情就发生了：</li>
+</ol>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_14-58-44.jpg" alt="image"></p>
+<p>网站管理员没有更改cms默认的链接，直接告诉了我们使用的cms是啥。网上信息搜索一波，能找到jeecms的管理后台路径，默认账号密码等东西（jeecms官方论坛也可以下载到源码）</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_15-06-54.jpg" alt="image"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/jeeadmin/jeecms/index.do //后台登陆</span><br><span class="line">admin/password //默认账户</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_15-13-46.jpg" alt="image"></p>
+<h2 id="0x03-弱密码"><a href="#0x03-弱密码" class="headerlink" title="0x03 弱密码"></a>0x03 弱密码</h2><p>上面得到了cms后台路径和默认账户，不过人家管理员也没那么傻，直接使用默认账户。</p>
+<p>但根据测试，网站是没有对登陆验证回显信息做模糊处理的（“用户名不存在”，“密码错误”），由此可枚举出管理后台存在的用户名（admin一次过）。</p>
+<p>网站没有验证码、登陆限制等防爆破手段，但根据抓包，密码经过了md5加密。直接burpsuite跑一波，发现弱密码<code>123456</code>，成功登录。</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_15-24-32.jpg" alt="image"></p>
+<h2 id="0x04-Getshell"><a href="#0x04-Getshell" class="headerlink" title="0x04 Getshell"></a>0x04 Getshell</h2><p>能够进入后台，主要目标就是找找网站结构、文件上传等东西了，毕竟简单粗暴，也是最快获得网站shell的方式。</p>
+<p>最后在某功能点发现能够直接向服务器写入文件，这样事情就好办了。</p>
+<p>创建一个jsp文件，写入小马，点击提交，一顿操作猛如虎，然后就就死活传不上去。。</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_15-32-53.jpg" alt="image"></p>
+<p>猜测可能后台限制了文件类型，尝试将<code>.jsp</code>换成<code>.txt</code>、<code>.jpg</code>等后缀，还是传不上去，但它的文件列表里是存在jpg文件的，说明可能不是根据文件后缀进行检测，可能是检测的文件内容。</p>
+<p>之后将后缀改回jsp，文件内容<code>123test</code>，成功创建。</p>
+<p>瞬间清晰，网站可能存在waf，过滤危险文件内容。</p>
+<p>如果waf是根据危险字符的内容匹配规则的话，jsp文件有一种过狗的trick：将关键内容进行<code>unicode编码</code>。</p>
+<p>java中的字符串默认使用Unicode进行编码，因此容器执行jsp文件时，将自动对Unicode编码进行解码。</p>
+<p>这里有两个前提条件：</p>
+<ol>
+<li>Java；</li>
+<li>字符串。</li>
+</ol>
+<p>既然需要是Java文件，那么此文件应该需要能够被jsp所识别，所以jsp文件中的脚本开始符<code>&lt;%</code>和结束符<code>%&gt;</code>不能够被编码，不然jsp识别不了脚本语句，不会对其进行解码，直接访问会返回状态码<code>500</code>。</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_15-49-55.jpg" alt="image"></p>
+<p>成功创建，冰蝎连接，发现网站使用root超级管理员权限（危）</p>
+<p><img src="https://wl-1301085254.cos.ap-chengdu.myqcloud.com/md_images/20200330/Snipaste_2020-03-30_16-01-35.jpg" alt="image"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">帅气的吴先生</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://ziyue0230.top/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/">https://ziyue0230.top/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">未经作者允许禁止转载！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/cover/getshell.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021-08/Windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8F%90%E6%9D%83/"><img class="next-cover" src="/img/cover/windows_tiquan.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Windows操作系统提权</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">帅气的吴先生</div><div class="author-info__description">积土成山，积水成渊，净水流深</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ziyue0230"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ziyue0230" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ziyue0230@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">暂时还没有公告哦^_^</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell"><span class="toc-number">1.</span> <span class="toc-text">从报错到getshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">0x00 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">0x01 信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E6%8A%A5%E9%94%99%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">0x02 报错页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-%E5%BC%B1%E5%AF%86%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">0x03 弱密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-Getshell"><span class="toc-number">1.5.</span> <span class="toc-text">0x04 Getshell</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/" title="从报错到getshell"><img src="/img/cover/getshell.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从报错到getshell"/></a><div class="content"><a class="title" href="/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/" title="从报错到getshell">从报错到getshell</a><time datetime="2021-08-13T06:25:07.000Z" title="发表于 2021-08-13 14:25:07">2021-08-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021-08/Windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8F%90%E6%9D%83/" title="Windows操作系统提权"><img src="/img/cover/windows_tiquan.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Windows操作系统提权"/></a><div class="content"><a class="title" href="/2021-08/Windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8F%90%E6%9D%83/" title="Windows操作系统提权">Windows操作系统提权</a><time datetime="2021-08-13T06:14:02.000Z" title="发表于 2021-08-13 14:14:02">2021-08-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021-08/UDF%E6%8F%90%E6%9D%83/" title="UDF提权"><img src="/img/cover/udf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="UDF提权"/></a><div class="content"><a class="title" href="/2021-08/UDF%E6%8F%90%E6%9D%83/" title="UDF提权">UDF提权</a><time datetime="2021-08-13T04:13:23.000Z" title="发表于 2021-08-13 12:13:23">2021-08-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021-08/docker%E5%BF%AB%E6%9F%A5/" title="docker快查"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker快查"/></a><div class="content"><a class="title" href="/2021-08/docker%E5%BF%AB%E6%9F%A5/" title="docker快查">docker快查</a><time datetime="2021-08-10T16:46:51.000Z" title="发表于 2021-08-11 00:46:51">2021-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021-08/Python%E4%B8%AD%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" title="Python中的迭代器和生成器"><img src="/img/cover/python2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python中的迭代器和生成器"/></a><div class="content"><a class="title" href="/2021-08/Python%E4%B8%AD%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8C%E7%94%9F%E6%88%90%E5%99%A8/" title="Python中的迭代器和生成器">Python中的迭代器和生成器</a><time datetime="2021-08-10T16:01:37.000Z" title="发表于 2021-08-11 00:01:37">2021-08-11</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/cover/getshell.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 帅气的吴先生</div><div class="footer_custom_text">你那么可爱，打赏一个再走叭(*/ω＼*)</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
