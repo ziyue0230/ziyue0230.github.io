@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>不同类型数据库的报错信息</title>
+      <link href="/2021-08/%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF/"/>
+      <url>/2021-08/%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="不同类型数据库的报错信息"><a href="#不同类型数据库的报错信息" class="headerlink" title="不同类型数据库的报错信息"></a>不同类型数据库的报错信息</h1><p><em>参考资料：<a href="https://www.securityidiots.com/Web-Pentest/SQL-Injection/Part-2-Basic-of-SQL-for-SQLi.html">https://www.securityidiots.com/Web-Pentest/SQL-Injection/Part-2-Basic-of-SQL-for-SQLi.html</a></em></p><h2 id="MSSQL-ASPX-Error"><a href="#MSSQL-ASPX-Error" class="headerlink" title="MSSQL ASPX Error"></a>MSSQL ASPX Error</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server Error in &#x27;/&#x27; Application</span><br></pre></td></tr></table></figure><h2 id="MSAccess-Apache-PHP"><a href="#MSAccess-Apache-PHP" class="headerlink" title="MSAccess (Apache PHP)"></a>MSAccess (Apache PHP)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: Uncaught exception &#x27;com_exception&#x27; with message Source: Microsoft JET Database Engine</span><br></pre></td></tr></table></figure><h2 id="MSAccesss-IIS-ASP"><a href="#MSAccesss-IIS-ASP" class="headerlink" title="MSAccesss (IIS ASP)"></a>MSAccesss (IIS ASP)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Microsoft JET Database Engine error &#x27;80040e14&#x27;</span><br></pre></td></tr></table></figure><h2 id="Oracle-Error"><a href="#Oracle-Error" class="headerlink" title="Oracle Error"></a>Oracle Error</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ORA-00933: SQL command not properly ended</span><br></pre></td></tr></table></figure><h2 id="ODBC-Error"><a href="#ODBC-Error" class="headerlink" title="ODBC Error"></a>ODBC Error</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Microsoft OLE DB Provider for ODBC Drivers (0x80040E14)</span><br></pre></td></tr></table></figure><h2 id="PostgreSQL-Error"><a href="#PostgreSQL-Error" class="headerlink" title="PostgreSQL Error"></a>PostgreSQL Error</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PSQLException: ERROR: unterminated quoted string at or near &quot;&#x27;&quot; Position: 1</span><br><span class="line">or</span><br><span class="line">Query failed: ERROR: syntax error at or near</span><br><span class="line">&quot;&#x27;&quot; at character 56 in /www/site/test.php on line 121.</span><br></pre></td></tr></table></figure><h2 id="MS-SQL-Server-Error"><a href="#MS-SQL-Server-Error" class="headerlink" title="MS SQL Server: Error"></a>MS SQL Server: Error</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Microsoft SQL Native Client error %u201880040e14%u2019</span><br><span class="line">Unclosed quotation mark after the character string</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂项 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数据库 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>从报错到getshell</title>
       <link href="/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/"/>
       <url>/2021-08/%E4%BB%8E%E6%8A%A5%E9%94%99%E5%88%B0getshell/</url>
